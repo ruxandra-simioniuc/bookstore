@@ -1,0 +1,55 @@
+package pos.proiect.bookstore.service.implementation;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
+import pos.proiect.bookstore.exception.ResourceNotFoundException;
+import pos.proiect.bookstore.model.Book;
+import pos.proiect.bookstore.repository.BookRepository;
+import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class BookService implements BookServiceInterface {
+
+    private BookRepository bookRepository;
+
+    @Autowired
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    @Override
+    public Book getBookByISBN(String ISBN) {
+        Optional<Book> book =  bookRepository.findById(ISBN);
+
+        if(book.isPresent())
+            return book.get();
+        else {
+            throw new ResourceNotFoundException("Book", "isbn", ISBN);
+        }
+    }
+
+    @Override
+    public List<Book> getBooksByGenre(String genre) {
+        return bookRepository.findAll().stream().filter(b->b.getGenre().equals(genre)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> getBooksByYear(Integer year) {
+        return bookRepository.findAll().stream().filter(b-> b.getPublishing_year().equals(year)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> getBooksByYearAndGenre(String genre, Integer year) {
+        return this.getBooksByGenre(genre).stream().filter(this.getBooksByYear(year)::contains).collect(Collectors.toList());
+    }
+}
