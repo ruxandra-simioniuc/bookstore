@@ -1,8 +1,10 @@
 package pos.proiect.bookstore.controller;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
 
@@ -16,7 +18,6 @@ public class BookController {
     private BookServiceInterface bookService;
 
     public BookController(BookServiceInterface bookService) {
-        super();
         this.bookService = bookService;
     }
 
@@ -24,7 +25,7 @@ public class BookController {
     //or filter
     //http://localhost:8080/api/bookcollection/books?genre=dragoste&year=1847
     @GetMapping
-    public List<Book> getAllBooks(@RequestParam(name="genre") Optional<String> genre, @RequestParam(name="year") Optional<Integer> year){
+    public List<Book> getBooks(@RequestParam(name="genre") Optional<String> genre, @RequestParam(name="year") Optional<Integer> year){
 
         if(genre.isEmpty() && year.isEmpty())
             return bookService.getAllBooks();
@@ -44,5 +45,6 @@ public class BookController {
     public ResponseEntity<Book> getBookByISBN(@PathVariable("isbn") String ISBN){
         return new ResponseEntity<Book>(bookService.getBookByISBN(ISBN), HttpStatus.OK);
     }
+
 
 }

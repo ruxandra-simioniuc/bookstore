@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import pos.proiect.bookstore.exception.ResourceNotFoundException;
+import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.repository.BookRepository;
 import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
@@ -52,4 +53,6 @@ public class BookService implements BookServiceInterface {
     public List<Book> getBooksByYearAndGenre(String genre, Integer year) {
         return this.getBooksByGenre(genre).stream().filter(this.getBooksByYear(year)::contains).collect(Collectors.toList());
     }
+
+
 }
