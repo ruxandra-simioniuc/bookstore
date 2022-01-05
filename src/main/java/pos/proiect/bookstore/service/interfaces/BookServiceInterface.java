@@ -2,6 +2,7 @@ package pos.proiect.bookstore.service.interfaces;
 
 import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
+import pos.proiect.bookstore.model.BookInterface;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface BookServiceInterface {
     List<Book> getBooksByGenre(String genre);
     List<Book> getBooksByYear(Integer year);
     List<Book> getBooksByYearAndGenre(String genre, Integer year);
-    List<Author> getBookAuthors(String ISBN);
+    BookInterface getBookByISBNVerboseFalse(String ISBN);
 }

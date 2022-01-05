@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="carte")
-public class Book {
+public class Book implements BookInterface{
 
     //@Id -> is primary key
     @Id

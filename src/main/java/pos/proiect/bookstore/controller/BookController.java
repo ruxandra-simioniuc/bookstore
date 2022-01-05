@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
+import pos.proiect.bookstore.model.BookInterface;
 import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
 
 import java.util.List;
@@ -41,9 +42,13 @@ public class BookController {
         }
     }
 
+    //http://localhost:8080/api/bookcollection/books/{isbn}?verbose=false
     @GetMapping("/{isbn}")
-    public ResponseEntity<Book> getBookByISBN(@PathVariable("isbn") String ISBN){
-        return new ResponseEntity<Book>(bookService.getBookByISBN(ISBN), HttpStatus.OK);
+    public ResponseEntity<BookInterface> getBookByISBN(@PathVariable("isbn") String ISBN, @RequestParam(name="verbose") Optional<Boolean> verbose){
+        if(verbose.isPresent() && !verbose.get())
+            return new ResponseEntity<BookInterface>(bookService.getBookByISBNVerboseFalse(ISBN), HttpStatus.OK);
+        else
+            return new ResponseEntity<BookInterface>(bookService.getBookByISBN(ISBN), HttpStatus.OK);
     }
 
 
