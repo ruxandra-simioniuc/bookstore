@@ -1,6 +1,5 @@
 package pos.proiect.bookstore.service.interfaces;
 
-import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.model.BookInterface;
 

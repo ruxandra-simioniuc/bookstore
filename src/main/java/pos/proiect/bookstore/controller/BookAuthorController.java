@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pos.proiect.bookstore.model.Author;
-import pos.proiect.bookstore.service.interfaces.BookAuthorServiceInterface;
+import pos.proiect.bookstore.service.implementation.BookAuthorService;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
 @RequestMapping("api/bookcollection/books")
 public class BookAuthorController {
 
-    private BookAuthorServiceInterface bookAuthorService;
+    private BookAuthorService bookAuthorService;
 
-    public BookAuthorController(BookAuthorServiceInterface bookAuthorService) {
+    public BookAuthorController(BookAuthorService bookAuthorService) {
         this.bookAuthorService = bookAuthorService;
     }
 

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name="carte")
@@ -24,6 +25,12 @@ public class Book implements BookInterface{
 
     @Column(name = "gen_literar")
     private String genre;
+
+    @Column(name="pret")
+    private Float price;
+
+    @Column(name="stoc")
+    private Integer stock;
 
     public String getIsbn() {
         return isbn;
@@ -63,5 +70,21 @@ public class Book implements BookInterface{
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public Float getPret() {
+        return price;
+    }
+
+    public void setPret(Float price) {
+        this.price = price;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }
