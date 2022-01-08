@@ -1,6 +1,9 @@
 package pos.proiect.bookstore.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import pos.proiect.bookstore.exception.ResourceNotFoundException;
@@ -11,6 +14,7 @@ import pos.proiect.bookstore.model.BookVerboseFalse;
 import pos.proiect.bookstore.repository.BookRepository;
 import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,6 +67,20 @@ public class BookService implements BookServiceInterface {
             return new BookVerboseFalse(book.get().getIsbn(), book.get().getTitle(), book.get().getGenre());
         else
             throw new ResourceNotFoundException("Book", "ISBN", ISBN);
+    }
+
+    @Override
+    public List<Book> getBooksPagination(Integer pageNo, Integer items_per_page) {
+        Pageable paging = PageRequest.of(pageNo, items_per_page);
+        Page<Book> pagedResult = bookRepository.findAll(paging);
+
+        if(pagedResult.hasContent()){
+            return pagedResult.getContent();
+        }else{
+            return  new ArrayList<Book>();
+        }
+
+
     }
 
 

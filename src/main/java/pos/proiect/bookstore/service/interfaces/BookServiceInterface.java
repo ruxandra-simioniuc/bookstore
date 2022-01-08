@@ -14,4 +14,5 @@ public interface BookServiceInterface {
     List<Book> getBooksByYear(Integer year);
     List<Book> getBooksByYearAndGenre(String genre, Integer year);
     BookInterface getBookByISBNVerboseFalse(String ISBN);
+    List<Book> getBooksPagination(Integer pageNo, Integer items_per_page);
 }
