@@ -5,9 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 import pos.proiect.bookstore.exception.ResourceNotFoundException;
-import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.model.BookInterface;
 import pos.proiect.bookstore.model.BookVerboseFalse;
@@ -47,17 +45,20 @@ public class BookService implements BookServiceInterface {
 
     @Override
     public List<Book> getBooksByGenre(String genre) {
-        return bookRepository.findAll().stream().filter(b->b.getGenre().equals(genre)).collect(Collectors.toList());
+        return bookRepository.findBooksByGenre(genre);
+        //return bookRepository.findAll().stream().filter(b->b.getGenre().equals(genre)).collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getBooksByYear(Integer year) {
-        return bookRepository.findAll().stream().filter(b-> b.getPublishing_year().equals(year)).collect(Collectors.toList());
+        return bookRepository.findBooksByYear(year);
+        //return bookRepository.findAll().stream().filter(b-> b.getYear().equals(year)).collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getBooksByYearAndGenre(String genre, Integer year) {
-        return this.getBooksByGenre(genre).stream().filter(this.getBooksByYear(year)::contains).collect(Collectors.toList());
+        return bookRepository.findBooksByGenreAndYear(genre, year);
+        //return this.getBooksByGenre(genre).stream().filter(this.getBooksByYear(year)::contains).collect(Collectors.toList());
     }
 
     @Override
@@ -81,6 +82,26 @@ public class BookService implements BookServiceInterface {
         }
 
 
+    }
+
+    @Override
+    public boolean stockOk(String ISBN, Integer quantity) {
+        Optional<Book> bk = bookRepository.findById(ISBN);
+        if(bk.isPresent()){
+            if(bk.get().getStock() >= quantity)
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void decreaseStock(String ISBN, Integer quantity) {
+        Optional<Book> bk = bookRepository.findById(ISBN);
+        if(bk.isPresent()) {
+            bk.get().setStock(bk.get().getStock() - quantity);
+
+            bookRepository.save(bk.get());
+        }
     }
 
 

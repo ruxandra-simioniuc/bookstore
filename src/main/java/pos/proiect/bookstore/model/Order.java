@@ -3,31 +3,33 @@ package pos.proiect.bookstore.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
+import pos.proiect.bookstore.dto.Item;
 
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection="orders")
+@Document(collection="#{@orderRepository.getCollectionName()}")
 public class Order {
     @Id
     private String id;
 
     private Integer userid;
-    @DateTimeFormat
-    private Date date;
+    //@DateTimeFormat
+    //private Date date;
+    private LocalDateTime date;
 
     @Field("items")
-    private List<?> items;
+    private List<Item> items;
     private String status;
 
     public Order(){};
 
-    public Order(Integer user_id, Date date, List<Book> items, String status) {
-        this.userid = user_id;
+    public Order(LocalDateTime date, List<Item> items, String status) {
         this.date = date;
-        this.items = new ArrayList<>(items);
+        this.items = items;
         this.status = status;
     }
 
@@ -47,19 +49,19 @@ public class Order {
         this.userid = user_id;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public List<?> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<?> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 

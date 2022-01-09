@@ -80,5 +80,14 @@ public class BookController {
             return new ResponseEntity<BookInterface>(bookService.getBookByISBN(ISBN), HttpStatus.OK);
     }
 
+    @PostMapping("/{isbn}/{quantity}")
+    public ResponseEntity<String> checkOrderAndUpdateStock(@PathVariable("isbn") String isbn, @PathVariable("quantity") Integer quantity){
+        if(bookService.stockOk(isbn, quantity)){
+            bookService.decreaseStock(isbn, quantity);
+            return new ResponseEntity<String>("Stock ok for "+bookService.getBookByISBN(isbn).getTitle(), HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("stock too low", HttpStatus.CONFLICT);
+    }
+
 
 }

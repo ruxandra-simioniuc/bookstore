@@ -6,7 +6,12 @@ import pos.proiect.bookstore.model.Order;
 import pos.proiect.bookstore.repository.OrderRepository;
 import pos.proiect.bookstore.service.interfaces.OrderServiceInterface;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService implements OrderServiceInterface {
@@ -19,20 +24,22 @@ public class OrderService implements OrderServiceInterface {
         this.orderRepository = orderRepository;
     }
 
-    @Override
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
    @Override
-    public Order findOrderByUser(Integer user_id) {
-       return orderRepository.findOrderByUserid(user_id);
+   public List<Order> getAllOrdersByUser(Integer user_id) {
+        orderRepository.setCollectionName("client."+user_id.toString());
+        return orderRepository.findAll();
 
    }
 
     @Override
-    public Order saveOrUpdateOrder(Order order) {
-        return orderRepository.save(order);
+    public Order createNewOrder(Map<String, String> params) {
+        return new Order(LocalDateTime.now(), new ArrayList<>(), "initialized");
+    }
+
+    @Override
+    public void placeOrder(Integer user_id, Order order) {
+        orderRepository.setCollectionName("client."+user_id.toString());
+        orderRepository.insert(order);
     }
 
     @Override

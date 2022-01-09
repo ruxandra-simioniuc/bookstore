@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name="carte")
@@ -21,7 +20,7 @@ public class Book implements BookInterface{
     private String publisher;
 
     @Column(name = "an_publicare")
-    private Integer publishing_year;
+    private Integer year;
 
     @Column(name = "gen_literar")
     private String genre;
@@ -56,12 +55,12 @@ public class Book implements BookInterface{
         this.publisher = publisher;
     }
 
-    public Integer getPublishing_year() {
-        return publishing_year;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setPublishing_year(Integer publishing_year) {
-        this.publishing_year = publishing_year;
+    public void setYear(Integer publishing_year) {
+        this.year = publishing_year;
     }
 
     public String getGenre() {
