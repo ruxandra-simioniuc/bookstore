@@ -16,7 +16,7 @@ public class Order {
     @Id
     private String id;
 
-    private Integer userid;
+    //private Integer userid;
     //@DateTimeFormat
     //private Date date;
     private LocalDateTime date;
@@ -39,14 +39,6 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Integer getUser_id() {
-        return userid;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.userid = user_id;
     }
 
     public LocalDateTime getDate() {

@@ -29,7 +29,7 @@ public class OrderService implements OrderServiceInterface {
 
    @Override
    public List<Order> getAllOrdersByUser(Integer user_id) {
-        orderRepository.setCollectionName("client."+user_id.toString());
+        this.setUserId(user_id);
         return orderRepository.findAll();
 
    }
@@ -53,7 +53,7 @@ public class OrderService implements OrderServiceInterface {
     public void addItemsToOrder( List<Item> items) {
 
         List<Order> existingOrders = orderRepository.findOrderByStatus("initialized");
-        
+
         Order temp_order = existingOrders.get(0);
         List<Item> temp = temp_order.getItems();
         List<Item> concat = Stream.concat(temp.stream(), items.stream()).collect(Collectors.toList());

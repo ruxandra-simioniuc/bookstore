@@ -28,10 +28,10 @@ public class OrderController {
     }*/
 
 
-    /*@GetMapping("/{user_id}")
+    @GetMapping("/{user_id}")
     public ResponseEntity<List<Order>> getOrderByUserID(@PathVariable("user_id") Integer user_id){
         return new ResponseEntity<List<Order>>(orderService.getAllOrdersByUser(user_id), HttpStatus.OK);
-    }*/
+    }
 
     @PostMapping("/{user_id}/placeOrder/{isbn}/{quantity}")
     public ResponseEntity<String> placeOrder(@PathVariable("user_id")Integer user_id, @PathVariable("isbn")String isbn, @PathVariable("quantity")Integer quantity){
