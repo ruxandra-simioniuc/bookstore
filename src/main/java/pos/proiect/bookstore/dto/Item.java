@@ -3,10 +3,10 @@ package pos.proiect.bookstore.dto;
 public class Item {
     private String isbn;
     private String title;
-    private Float price;
+    private Double price;
     private Integer quantity;
 
-    public Item(String isbn, String title, Float price, Integer quantity) {
+    public Item(String isbn, String title, Double price, Integer quantity) {
         this.isbn = isbn;
         this.title = title;
         this.price = price;
@@ -29,11 +29,11 @@ public class Item {
         this.title = title;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

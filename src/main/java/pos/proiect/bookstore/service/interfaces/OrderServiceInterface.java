@@ -1,5 +1,6 @@
 package pos.proiect.bookstore.service.interfaces;
 
+import pos.proiect.bookstore.dto.Item;
 import pos.proiect.bookstore.model.Order;
 
 import java.util.List;
@@ -10,8 +11,10 @@ public interface OrderServiceInterface {
 
     Order createNewOrder(Map<String, String> params );
 
-    void placeOrder(Integer user_id, Order order);
+    void placeOrder(Order order);
     void deleteOrder(String id);
-    //void updateOrder(Order order);
+    void addItemsToOrder( List<Item> items);
+    boolean orderExistsForUser();
+    void setUserId(Integer user_id);
 
 }

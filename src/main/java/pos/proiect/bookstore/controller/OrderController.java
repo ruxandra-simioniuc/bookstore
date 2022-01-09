@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.proiect.bookstore.dto.Item;
 import pos.proiect.bookstore.model.Order;
+import pos.proiect.bookstore.service.implementation.BookService;
 import pos.proiect.bookstore.service.implementation.OrderService;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private BookService bookService;
+
     /*@GetMapping
     public ResponseEntity<List<Order>> getAllOrders(){
         return new ResponseEntity<List<Order>>(orderService.getAllOrders(), HttpStatus.OK);
@@ -29,13 +33,28 @@ public class OrderController {
         return new ResponseEntity<List<Order>>(orderService.getAllOrdersByUser(user_id), HttpStatus.OK);
     }*/
 
-    @PostMapping("/placeOrder/{user_id}")
-    public void placeOrder(@PathVariable("user_id")Integer user_id){
-        Item item = new Item("978-000-65-4606-1", "Fahrenheit 451", (float) 43.7, 1);
+    @PostMapping("/{user_id}/placeOrder/{isbn}/{quantity}")
+    public ResponseEntity<String> placeOrder(@PathVariable("user_id")Integer user_id, @PathVariable("isbn")String isbn, @PathVariable("quantity")Integer quantity){
+        orderService.setUserId(user_id);
+
+        String title = bookService.getBookByISBN(isbn).getTitle();
+        Double price = bookService.getBookByISBN(isbn).getPrice();
+        Item item = new Item(isbn, title, price, quantity);
         Order myOrder = new Order(LocalDateTime.now(), List.of(item), "initialized");
 
-        orderService.placeOrder(user_id, myOrder);
+        // check stock and then decrease from sql db
+        if(bookService.stockOk(isbn, quantity)){
+            if(orderService.orderExistsForUser()) {
+                orderService.addItemsToOrder(List.of(item));
+                return new ResponseEntity<String>("Stock ok for " + title + ". Updated order.", HttpStatus.OK);
+            }else {
+                bookService.decreaseStock(isbn, quantity);
+                orderService.placeOrder(myOrder);
+                return new ResponseEntity<String>("Stock ok for " + title + ". Placed order.", HttpStatus.OK);
+            }
 
+        }
+        return new ResponseEntity<String>("stock too low", HttpStatus.CONFLICT);
     }
 
 }

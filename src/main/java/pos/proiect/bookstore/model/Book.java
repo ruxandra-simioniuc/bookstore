@@ -26,7 +26,7 @@ public class Book implements BookInterface{
     private String genre;
 
     @Column(name="pret")
-    private Float price;
+    private Double price;
 
     @Column(name="stoc")
     private Integer stock;
@@ -71,11 +71,11 @@ public class Book implements BookInterface{
         this.genre = genre;
     }
 
-    public Float getPret() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPret(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
