@@ -10,6 +10,10 @@ public interface UserService {
 
     User saveUser(User user);
 
+    //boolean changePassword(String username, String newPassword);
+
+    //boolean changeRole(String username, String newRole);
+
 
 
 }

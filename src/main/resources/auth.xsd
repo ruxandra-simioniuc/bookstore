@@ -11,13 +11,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="loginResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="response" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+
 
     <xs:element name="registerRequest">
         <xs:complexType>
@@ -43,6 +37,34 @@
             <xs:sequence>
                 <xs:element name="username" type="xs:string"/>
                 <xs:element name="jwt" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="changeRoleRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="jwt" type="xs:string"/>
+                <xs:element name="newRole" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="changePasswordRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="jwt" type="xs:string"/>
+                <xs:element name="newPassword" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="generalResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

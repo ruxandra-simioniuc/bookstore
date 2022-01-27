@@ -6,7 +6,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import pos.proiect.bookstore.generated.LoginRequest;
-import pos.proiect.bookstore.generated.LoginResponse;
+import pos.proiect.bookstore.generated.GeneralResponse;
 import pos.proiect.bookstore.generated.RegisterRequest;
 import pos.proiect.bookstore.generated.RegisterResponse;
 import pos.proiect.bookstore.model.User;
@@ -30,8 +30,8 @@ public class AuthEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "loginRequest")
     @ResponsePayload
-    public LoginResponse login(@RequestPayload LoginRequest request) {
-        LoginResponse response = new LoginResponse();
+    public GeneralResponse login(@RequestPayload LoginRequest request) {
+        GeneralResponse response = new GeneralResponse();
         response.setResponse(userService.authenticate(request.getUsername(), request.getPassword()));
         //response.setResponse(request.getUsername() + request.getUsername());
         //response.setResponse(userService.getUserByUsername(request.getUsername()).getUsername());

@@ -38,4 +38,14 @@ public class UserServiceImpl implements UserService {
             return userRepository.save(user);
         }
     }
+
+   /* @Override
+    boolean changePassword(String username, String newPassword){
+        return true;
+    }
+
+    @Override
+    boolean changeRole(String username, String newRole){
+        return true;
+    }*/
 }
