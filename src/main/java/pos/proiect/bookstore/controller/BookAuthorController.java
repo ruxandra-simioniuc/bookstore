@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pos.proiect.bookstore.model.Author;
-import pos.proiect.bookstore.service.implementation.BookAuthorService;
+import pos.proiect.bookstore.service.implementation.BookAuthorServiceImpl;
+import pos.proiect.bookstore.service.interfaces.BookAuthorService;
 
 import java.util.List;
 

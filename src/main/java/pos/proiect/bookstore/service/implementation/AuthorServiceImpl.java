@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.repository.AuthorRepository;
-import pos.proiect.bookstore.service.interfaces.AuthorServiceInterface;
+import pos.proiect.bookstore.service.interfaces.AuthorService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthorService implements AuthorServiceInterface {
+public class AuthorServiceImpl implements AuthorService {
 
     private AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorService(AuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 

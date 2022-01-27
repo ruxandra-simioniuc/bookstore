@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.proiect.bookstore.dto.Item;
 import pos.proiect.bookstore.model.Order;
-import pos.proiect.bookstore.service.implementation.BookService;
-import pos.proiect.bookstore.service.implementation.OrderService;
+import pos.proiect.bookstore.service.implementation.BookServiceImpl;
+import pos.proiect.bookstore.service.implementation.OrderServiceImpl;
+import pos.proiect.bookstore.service.interfaces.BookService;
+import pos.proiect.bookstore.service.interfaces.OrderService;
 
 import java.time.LocalDateTime;
 import java.util.List;

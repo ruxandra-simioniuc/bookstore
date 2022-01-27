@@ -4,7 +4,7 @@ import pos.proiect.bookstore.model.Author;
 
 import java.util.List;
 
-public interface AuthorServiceInterface {
+public interface AuthorService {
     List<Author> getAllAuthors();
     Author getAuthorByID(Integer id);
     List<Author> getAuthorByName(String name);

@@ -5,7 +5,7 @@ import pos.proiect.bookstore.model.BookInterface;
 
 import java.util.List;
 
-public interface BookServiceInterface {
+public interface BookService {
 
     List<Book> getAllBooks();
     Book getBookByISBN(String ISBN);

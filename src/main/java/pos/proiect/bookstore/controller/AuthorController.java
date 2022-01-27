@@ -1,11 +1,10 @@
 package pos.proiect.bookstore.controller;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.proiect.bookstore.model.Author;
-import pos.proiect.bookstore.service.interfaces.AuthorServiceInterface;
+import pos.proiect.bookstore.service.interfaces.AuthorService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +14,9 @@ import java.util.Optional;
 public class AuthorController {
 
 
-    private AuthorServiceInterface authorService;
+    private AuthorService authorService;
 
-    public AuthorController(AuthorServiceInterface authorService) {
+    public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
 

@@ -6,7 +6,7 @@ import pos.proiect.bookstore.model.Order;
 import java.util.List;
 import java.util.Map;
 
-public interface OrderServiceInterface {
+public interface OrderService {
     List<Order> getAllOrdersByUser(Integer user_id);
 
     Order createNewOrder(Map<String, String> params );

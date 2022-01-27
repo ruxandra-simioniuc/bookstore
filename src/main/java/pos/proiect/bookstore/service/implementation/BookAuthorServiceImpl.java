@@ -5,16 +5,16 @@ import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.BookAuthor;
 import pos.proiect.bookstore.repository.BookAuthorRepository;
-import pos.proiect.bookstore.service.interfaces.BookAuthorServiceInterface;
+import pos.proiect.bookstore.service.interfaces.BookAuthorService;
 
 import java.util.List;
 @Service
-public class BookAuthorService implements BookAuthorServiceInterface {
+public class BookAuthorServiceImpl implements BookAuthorService {
 
     BookAuthorRepository bookAuthorRepository;
 
     @Autowired
-    public BookAuthorService(BookAuthorRepository bookAuthorRepository) {
+    public BookAuthorServiceImpl(BookAuthorRepository bookAuthorRepository) {
         this.bookAuthorRepository = bookAuthorRepository;
     }
 

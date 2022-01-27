@@ -1,13 +1,11 @@
 package pos.proiect.bookstore.controller;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pos.proiect.bookstore.model.Author;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.model.BookInterface;
-import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
+import pos.proiect.bookstore.service.interfaces.BookService;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +15,9 @@ import java.util.Optional;
 @RequestMapping("api/bookcollection/books")
 public class BookController {
 
-    private BookServiceInterface bookService;
+    private BookService bookService;
 
-    public BookController(BookServiceInterface bookService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
     }
 

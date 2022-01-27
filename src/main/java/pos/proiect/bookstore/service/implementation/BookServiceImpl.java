@@ -10,20 +10,19 @@ import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.model.BookInterface;
 import pos.proiect.bookstore.model.BookVerboseFalse;
 import pos.proiect.bookstore.repository.BookRepository;
-import pos.proiect.bookstore.service.interfaces.BookServiceInterface;
+import pos.proiect.bookstore.service.interfaces.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class BookService implements BookServiceInterface {
+public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

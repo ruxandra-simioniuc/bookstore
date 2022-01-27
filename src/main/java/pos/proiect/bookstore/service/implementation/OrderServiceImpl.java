@@ -5,25 +5,23 @@ import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.dto.Item;
 import pos.proiect.bookstore.model.Order;
 import pos.proiect.bookstore.repository.OrderRepository;
-import pos.proiect.bookstore.service.interfaces.OrderServiceInterface;
+import pos.proiect.bookstore.service.interfaces.OrderService;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class OrderService implements OrderServiceInterface {
+public class OrderServiceImpl implements OrderService {
 
 
     private OrderRepository orderRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
