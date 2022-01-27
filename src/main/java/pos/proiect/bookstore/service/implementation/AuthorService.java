@@ -26,7 +26,7 @@ public class AuthorService implements AuthorServiceInterface {
 
     @Override
     public Author getAuthorByID(Integer id) {
-        return authorRepository.getById(id);
+        return authorRepository.findById(id).get();
     }
 
     @Override

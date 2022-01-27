@@ -21,6 +21,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    ///api/bookcollection/authors?name=...&match=exact
     @GetMapping
     public List<Author> getAuthors(@RequestParam(name="name")Optional<String> name, @RequestParam(name="match") Optional<String> match){
 
@@ -33,9 +34,10 @@ public class AuthorController {
 
         return authorService.getAllAuthors();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorById(Integer id){
-        return new ResponseEntity<Author>(authorService.getAuthorByID(id), HttpStatus.OK);
+    public ResponseEntity<Author> getAuthorById(@PathVariable("id") String id){
+        return new ResponseEntity<Author>(authorService.getAuthorByID(Integer.parseInt(id)), HttpStatus.OK);
     }
 
 }
