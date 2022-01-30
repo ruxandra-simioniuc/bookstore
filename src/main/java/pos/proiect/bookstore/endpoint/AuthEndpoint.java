@@ -12,8 +12,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import pos.proiect.bookstore.generated.LoginRequest;
 import pos.proiect.bookstore.generated.GeneralResponse;
+import pos.proiect.bookstore.generated.LogoutRequest;
 import pos.proiect.bookstore.generated.RegisterRequest;
-import pos.proiect.bookstore.generated.RegisterResponse;
 import pos.proiect.bookstore.model.User;
 import pos.proiect.bookstore.security.JwtTokenUtil;
 import pos.proiect.bookstore.service.interfaces.UserService;
@@ -59,7 +59,7 @@ public class AuthEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "registerRequest")
     @ResponsePayload
-    public RegisterResponse register(@RequestPayload RegisterRequest request) throws Exception {
+    public GeneralResponse register(@RequestPayload RegisterRequest request) throws Exception {
 
         //request.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -72,7 +72,7 @@ public class AuthEndpoint {
 
         User requestingUser = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
 
-        RegisterResponse result = new RegisterResponse();
+        GeneralResponse result = new GeneralResponse();
         if(requestingUser.getRole().equals("admin")) {
 
             System.out.println("e admin e ok");
@@ -90,6 +90,12 @@ public class AuthEndpoint {
         }
         return result;
 
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "logoutRequest")
+    @ResponsePayload
+    public GeneralResponse logout(@RequestPayload LogoutRequest request) throws Exception {
+        return null;
     }
 
 

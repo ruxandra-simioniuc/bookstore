@@ -15,9 +15,11 @@ public interface UserService extends UserDetailsService {
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    //boolean changePassword(String username, String newPassword);
+    boolean deleteUser(String username);
 
-    //boolean changeRole(String username, String newRole);
+    boolean changePassword(String username, String newPassword);
+
+    boolean changeRole(String username, String newRole);
 
 
 

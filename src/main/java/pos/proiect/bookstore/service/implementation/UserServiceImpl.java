@@ -43,6 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean deleteUser(String username) {
+        User user = findUserByUsername(username);
+        if(user!=null){
+            userRepository.delete(user);
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
     public User saveUser(User user) {
         if (findUserByUsername(user.getUsername()) != null) {
             System.out.println("exista deja un user cu acest username: " + user.getUsername());
@@ -57,13 +68,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByUsername(username);
     }
 
-   /* @Override
-    boolean changePassword(String username, String newPassword){
-        return true;
+   @Override
+    public boolean changePassword(String username, String newPassword){
+       User user = findUserByUsername(username);
+       if(user!=null){
+           user.setPassword(newPassword);
+           userRepository.save(user);
+           return true;
+       }
+       return false;
     }
 
     @Override
-    boolean changeRole(String username, String newRole){
-        return true;
-    }*/
+    public boolean changeRole(String username, String newRole){
+        User user = findUserByUsername(username);
+        if(user!=null){
+            user.setRole(newRole);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 }
