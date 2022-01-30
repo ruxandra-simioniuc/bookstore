@@ -21,14 +21,14 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
+        return new ServletRegistrationBean(servlet, "/auth/*");
     }
 
     @Bean(name="auth")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema authSchema){
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("AuthPort");
-        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setLocationUri("/auth");
         wsdl11Definition.setTargetNamespace("http://bookstore.pos.proiect/Auth");
         wsdl11Definition.setSchema(authSchema);
         return wsdl11Definition;

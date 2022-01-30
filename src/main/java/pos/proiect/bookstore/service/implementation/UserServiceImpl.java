@@ -1,9 +1,14 @@
 package pos.proiect.bookstore.service.implementation;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.model.User;
 import pos.proiect.bookstore.repository.UserRepository;
 import pos.proiect.bookstore.service.interfaces.UserService;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -15,28 +20,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String authenticate(String username, String password) {
+    public boolean authenticate(String username, String password) throws UsernameNotFoundException{
         User user = userRepository.findUserByUsernameAndAndPassword(username, password);
         if( user == null){
-            return "can't find user";
+            return false;
         }
-        return "user found";
+        return true;
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         User user = userRepository.findUserByUsername(username);
-        return user;
+
+        if (user !=null){
+            List<SimpleGrantedAuthority> roles = List.of(new SimpleGrantedAuthority(user.getRole()));
+
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                    roles);
+        }else{
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
     }
 
     @Override
     public User saveUser(User user) {
-        if(getUserByUsername(user.getUsername()) != null){
-            System.out.println("exista deja un user cu acest username: " +user.getUsername());
+        if (findUserByUsername(user.getUsername()) != null) {
+            System.out.println("exista deja un user cu acest username: " + user.getUsername());
             return null;
-        }else{
+        } else {
             return userRepository.save(user);
         }
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
    /* @Override

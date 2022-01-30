@@ -1,14 +1,19 @@
 package pos.proiect.bookstore.service.interfaces;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pos.proiect.bookstore.model.User;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    String authenticate(String username, String password);
-
-    User getUserByUsername(String username);
+    boolean authenticate(String username, String password);
 
     User saveUser(User user);
+
+    User findUserByUsername(String username);
+
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     //boolean changePassword(String username, String newPassword);
 
