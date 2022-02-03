@@ -3,17 +3,22 @@ package pos.proiect.bookstore.service.implementation;
 import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.model.jwt.JwtBlacklist;
 import pos.proiect.bookstore.repository.JwtBlacklistRepository;
+import pos.proiect.bookstore.security.JwtTokenUtil;
 import pos.proiect.bookstore.service.interfaces.JwtBlacklistService;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class JwtBlacklistServiceImpl implements JwtBlacklistService {
 
     private JwtBlacklistRepository jwtBlacklistRepository;
+    private JwtTokenUtil jwtTokenUtil;
 
-    public JwtBlacklistServiceImpl(JwtBlacklistRepository jwtBlacklistRepository) {
+    public JwtBlacklistServiceImpl(JwtBlacklistRepository jwtBlacklistRepository, JwtTokenUtil jwtTokenUtil) {
         this.jwtBlacklistRepository = jwtBlacklistRepository;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @Override
@@ -37,5 +42,14 @@ public class JwtBlacklistServiceImpl implements JwtBlacklistService {
     @Override
     public List<JwtBlacklist> getAllJWTs() {
         return jwtBlacklistRepository.findAll();
+    }
+
+    @Override
+    public Boolean isExpired(String jwt) {
+
+        Date exp = jwtTokenUtil.getExpirationDateFromToken(jwt);
+
+        return exp.before(Calendar.getInstance().getTime());
+
     }
 }

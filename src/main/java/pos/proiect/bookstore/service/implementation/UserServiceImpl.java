@@ -1,8 +1,12 @@
 package pos.proiect.bookstore.service.implementation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pos.proiect.bookstore.model.User;
 import pos.proiect.bookstore.repository.UserRepository;
@@ -15,17 +19,25 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+        //this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public boolean authenticate(String username, String password) throws UsernameNotFoundException{
-        User user = userRepository.findUserByUsernameAndAndPassword(username, password);
-        if( user == null){
+        System.out.println("user name: " + username + " password: " +password);
+
+        try{
+            UsernamePasswordAuthenticationToken tok = new UsernamePasswordAuthenticationToken(username, password);
+            authenticationManager.authenticate(tok);
+            return true;
+        }catch(Exception e){
             return false;
         }
-        return true;
     }
 
     @Override

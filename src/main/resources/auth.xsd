@@ -11,7 +11,13 @@
         </xs:complexType>
     </xs:element>
 
-
+    <xs:element name="jwtResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="jwt" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="registerRequest">
         <xs:complexType>
@@ -67,6 +73,31 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="validateToken">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="jwt" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="validationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sub" type="xs:string"/>
+                <xs:element name="role" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="destroyToken">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="jwt" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
