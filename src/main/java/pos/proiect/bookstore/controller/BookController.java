@@ -101,7 +101,11 @@ public class BookController {
     @PostMapping("/modify/{isbn}")
     public ResponseEntity<String> modifyBook(@PathVariable("isbn") String isbn, @RequestBody Book alt, @RequestHeader("Authorization") String jwt){
 
-        String token = jwt.replace("Bearer:", "");
+        if(jwt == null){
+            return new ResponseEntity<String>("auth header missing", HttpStatus.UNAUTHORIZED);
+        }
+
+        String token = jwt.replace("Bearer", "");
 
         User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
         String role = user.getRole();
@@ -113,14 +117,19 @@ public class BookController {
 
             return new ResponseEntity<String>("modified", HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("error", HttpStatus.FORBIDDEN);
         }
     }
 
     @DeleteMapping("/delete/{isbn}")
     public ResponseEntity<String> modifyBook(@PathVariable("isbn") String isbn, @RequestHeader("Authorization") String jwt){
 
-        String token = jwt.replace("Bearer:", "");
+        if(jwt == null){
+            return new ResponseEntity<String>("auth header missing", HttpStatus.UNAUTHORIZED);
+        }
+
+
+        String token = jwt.replace("Bearer", "");
 
         User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
         String role = user.getRole();
@@ -130,14 +139,19 @@ public class BookController {
 
             return new ResponseEntity<String>("deleted", HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("error", HttpStatus.FORBIDDEN);
         }
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> modifyBook( @RequestBody Book newBook, @RequestHeader("Authorization") String jwt){
 
-        String token = jwt.replace("Bearer:", "");
+        if(jwt == null){
+            return new ResponseEntity<String>("auth header missing", HttpStatus.UNAUTHORIZED);
+        }
+
+
+        String token = jwt.replace("Bearer", "");
 
         User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
         String role = user.getRole();
@@ -148,7 +162,7 @@ public class BookController {
 
             return new ResponseEntity<String>("new book added", HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("error", HttpStatus.FORBIDDEN);
         }
     }
 
