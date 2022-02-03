@@ -2,9 +2,7 @@ package pos.proiect.bookstore.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -17,27 +15,28 @@ import pos.proiect.bookstore.security.JwtTokenUtil;
 import pos.proiect.bookstore.service.interfaces.JwtBlacklistService;
 import pos.proiect.bookstore.service.interfaces.UserService;
 
-//import org.springframework.security.authentication.AuthenticationManager;
+import java.util.Objects;
+
 
 @Endpoint
 public class AuthEndpoint {
     private static final String NAMESPACE_URI = "http://bookstore.pos.proiect/Auth";
 
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+   /* @Autowired
+    private AuthenticationManager authenticationManager;*/
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    JwtBlacklistService jwtBlacklistService;
+    private JwtBlacklistService jwtBlacklistService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
    /* @Autowired
     public AuthEndpoint(UserService userService) {
@@ -48,7 +47,6 @@ public class AuthEndpoint {
     @ResponsePayload
     public JwtResponse login(@RequestPayload LoginRequest request) throws Exception {
         JwtResponse response = new JwtResponse();
-        String encodedPass =passwordEncoder.encode(request.getPassword());
 
         if(userService.authenticate(request.getUsername(), request.getPassword())) {
 
@@ -73,15 +71,14 @@ public class AuthEndpoint {
 
 
         String token = request.getJwt();
-        //String id = token.split(" ", 0)[1];
-        //System.out.println("id: "+id);
+
         String username = jwtTokenUtil.getUsernameFromToken(token);
         System.out.println("username from token: "+username);
 
         User requestingUser = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
 
         GeneralResponse result = new GeneralResponse();
-        //if(requestingUser.getRole().equals("admin")) {
+        if(requestingUser.getRole().equals("admin") && !jwtBlacklistService.isJWTinBlacklist(request.getJwt())) {
 
             System.out.println("e admin e ok");
             User newUser = new User();
@@ -93,9 +90,9 @@ public class AuthEndpoint {
             if (response != null)
                 result.setResponse("user registered " + response.getUsername());
             else result.setResponse("problem registering");
-//        }else {
-//            result.setResponse("not authorized");
-//        }
+        }else {
+            result.setResponse("not authorized");
+        }
         return result;
 
     }
@@ -106,8 +103,8 @@ public class AuthEndpoint {
         ValidationResponse validationResponse = new ValidationResponse();
 
 
-        if(jwtBlacklistService.isExpired(request.getJwt())){
-            System.out.println("exipred token");
+        if(jwtBlacklistService.isExpired(request.getJwt()) || jwtBlacklistService.isJWTinBlacklist(request.getJwt())){
+            System.out.println("exipred or invalid token");
             validationResponse.setRole("null");
             validationResponse.setSub(null);
             jwtBlacklistService.addJWTtoBlacklist(request.getJwt());
@@ -148,5 +145,40 @@ public class AuthEndpoint {
         return destroyToken( destroyToken);
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "changePasswordRequest")
+    @ResponsePayload
+    public GeneralResponse changePassword(@RequestPayload ChangePasswordRequest request) throws Exception {
+        GeneralResponse response = new GeneralResponse();
+
+        if(jwtTokenUtil.getUsernameFromToken(request.getJwt()).equals(request.getUsername())){
+            String encodedPass =passwordEncoder.encode(request.getNewPassword());
+            boolean result = userService.changePassword(request.getUsername(), encodedPass);
+            if(result)
+                response.setResponse("Changed password");
+            else response.setResponse("Error changing password");
+        }else{
+            response.setResponse("Unauthorized");
+        }
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "changeRoleRequest")
+    @ResponsePayload
+    public GeneralResponse changeRole(@RequestPayload ChangeRoleRequest request) throws Exception {
+        GeneralResponse response = new GeneralResponse();
+
+        User requestingUser = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(request.getJwt()));
+
+        if(requestingUser.getRole().equals("admin")){
+
+            boolean result = userService.changeRole(request.getUsername(), request.getNewRole());
+            if(result)
+                response.setResponse("Changed role");
+            else response.setResponse("Error changing role");
+        }else{
+            response.setResponse("Unauthorized");
+        }
+        return response;
+    }
 
 }

@@ -22,13 +22,13 @@ public class JwtBlacklistServiceImpl implements JwtBlacklistService {
     }
 
     @Override
-    public Boolean isJWTinBlacklist(String jwt) {
+    public boolean isJWTinBlacklist(String jwt) {
         return jwtBlacklistRepository.findById(jwt).isPresent();
 
     }
 
     @Override
-    public Boolean addJWTtoBlacklist(String jwt) {
+    public boolean addJWTtoBlacklist(String jwt) {
         JwtBlacklist jwtBlacklist = new JwtBlacklist();
         jwtBlacklist.setJwt(jwt);
         try{
@@ -45,11 +45,11 @@ public class JwtBlacklistServiceImpl implements JwtBlacklistService {
     }
 
     @Override
-    public Boolean isExpired(String jwt) {
+    public boolean isExpired(String jwt) {
 
         Date exp = jwtTokenUtil.getExpirationDateFromToken(jwt);
 
-        return exp.before(Calendar.getInstance().getTime());
+        return exp.before(new Date());
 
     }
 }

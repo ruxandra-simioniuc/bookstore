@@ -59,10 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/api/bookcollection/books").permitAll().and().
                 authorizeRequests().antMatchers("/api/bookcollection/books/**").permitAll().and().
-                authorizeRequests().antMatchers("/auth").permitAll().
-               /*
-                authorizeRequests().antMatchers(HttpMethod.POST, "/api/restaurants").hasAuthority("ADMIN").
-*/
+                authorizeRequests().antMatchers("/auth").permitAll().and().
+
+                authorizeRequests().antMatchers(HttpMethod.POST, "/api/bookcollection/books/modify/**").hasAuthority("manager").and().
+                authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/bookcollection/books/delete/**").hasAuthority("manager").
+
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to

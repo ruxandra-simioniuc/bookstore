@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface JwtBlacklistService {
 
-    Boolean isJWTinBlacklist(String jwt);
-    Boolean addJWTtoBlacklist(String jwt);
+    boolean isJWTinBlacklist(String jwt);
+    boolean addJWTtoBlacklist(String jwt);
     List<JwtBlacklist> getAllJWTs();
-    Boolean isExpired(String jwt);
+    boolean isExpired(String jwt);
 }
