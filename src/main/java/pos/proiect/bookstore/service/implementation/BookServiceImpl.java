@@ -79,16 +79,13 @@ public class BookServiceImpl implements BookService {
         }else{
             return  new ArrayList<Book>();
         }
-
-
     }
 
     @Override
     public boolean stockOk(String ISBN, Integer quantity) {
         Optional<Book> bk = bookRepository.findById(ISBN);
         if(bk.isPresent()){
-            if(bk.get().getStock() >= quantity)
-                return true;
+            return bk.get().getStock() >= quantity;
         }
         return false;
     }
@@ -102,6 +99,29 @@ public class BookServiceImpl implements BookService {
             bookRepository.save(bk.get());
         }
     }
+
+    @Override
+    public void deleteBook(String ISBN) {
+        bookRepository.deleteById(ISBN);
+    }
+
+    @Override
+    public void addBook(Book book) {
+
+        bookRepository.save(book);
+
+    }
+
+    /*@Override
+    public void modifyBook(String isbn, Book book){
+        Book modified = bookRepository.getOne(isbn);
+
+        if(modified.isPresent()){
+            book.setTitle(book.getTitle());
+            book.setPublisher(book.getTitle());
+            book.s
+        }
+    }*/
 
 
 }

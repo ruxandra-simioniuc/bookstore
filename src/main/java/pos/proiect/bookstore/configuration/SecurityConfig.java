@@ -59,10 +59,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/api/bookcollection/books").permitAll().and().
                 authorizeRequests().antMatchers("/api/bookcollection/books/**").permitAll().and().
+                authorizeRequests().antMatchers("/api/bookcollection/authors").permitAll().and().
                 authorizeRequests().antMatchers("/auth").permitAll().and().
 
                 authorizeRequests().antMatchers(HttpMethod.POST, "/api/bookcollection/books/modify/**").hasAuthority("manager").and().
+                authorizeRequests().antMatchers(HttpMethod.POST, "/api/bookcollection/books/add").hasAuthority("manager").and().
                 authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/bookcollection/books/delete/**").hasAuthority("manager").
+
 
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().

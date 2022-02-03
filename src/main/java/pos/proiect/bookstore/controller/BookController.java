@@ -1,11 +1,16 @@
 package pos.proiect.bookstore.controller;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.proiect.bookstore.model.Book;
 import pos.proiect.bookstore.model.BookInterface;
+import pos.proiect.bookstore.model.User;
+import pos.proiect.bookstore.security.JwtTokenUtil;
 import pos.proiect.bookstore.service.interfaces.BookService;
+import pos.proiect.bookstore.service.interfaces.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +21,12 @@ import java.util.Optional;
 public class BookController {
 
     private BookService bookService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    UserService userService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -85,6 +96,60 @@ public class BookController {
             return new ResponseEntity<String>("Stock ok for "+bookService.getBookByISBN(isbn).getTitle(), HttpStatus.OK);
         }
         return new ResponseEntity<String>("stock too low", HttpStatus.CONFLICT);
+    }
+
+    @PostMapping("/modify/{isbn}")
+    public ResponseEntity<String> modifyBook(@PathVariable("isbn") String isbn, @RequestBody Book alt, @RequestHeader("Authorization") String jwt){
+
+        String token = jwt.replace("Bearer:", "");
+
+        User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
+        String role = user.getRole();
+
+        if(role.equals("manager")){
+            Book book = bookService.getBookByISBN(isbn);
+            BeanUtils.copyProperties(alt, book, "isbn");
+            bookService.addBook(book);
+
+            return new ResponseEntity<String>("modified", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @DeleteMapping("/delete/{isbn}")
+    public ResponseEntity<String> modifyBook(@PathVariable("isbn") String isbn, @RequestHeader("Authorization") String jwt){
+
+        String token = jwt.replace("Bearer:", "");
+
+        User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
+        String role = user.getRole();
+
+        if(role.equals("manager")){
+            bookService.deleteBook(isbn);
+
+            return new ResponseEntity<String>("deleted", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> modifyBook( @RequestBody Book newBook, @RequestHeader("Authorization") String jwt){
+
+        String token = jwt.replace("Bearer:", "");
+
+        User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
+        String role = user.getRole();
+
+        if(role.equals("manager")){
+
+            bookService.addBook(newBook);
+
+            return new ResponseEntity<String>("new book added", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("error", HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

@@ -16,4 +16,6 @@ public interface BookService {
     List<Book> getBooksPagination(Integer pageNo, Integer items_per_page);
     boolean stockOk(String ISBN, Integer quantity);
     void decreaseStock(String ISBN, Integer quantity);
+    void deleteBook(String ISBN);
+    void addBook(Book book);
 }
