@@ -17,16 +17,17 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000/", allowedHeaders = "*")
 @RequestMapping("api/bookcollection/books")
 public class BookController {
 
     private BookService bookService;
 
     @Autowired
-    JwtTokenUtil jwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -35,6 +36,7 @@ public class BookController {
     //get all books
     //or filter
     //http://localhost:8080/api/bookcollection/books?genre=dragoste&year=1847
+
     @GetMapping
     public ResponseEntity<List<Book>> getBooks(@RequestParam Map<String, String> allParams){
         if(allParams.containsKey("page")){
